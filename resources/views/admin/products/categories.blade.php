@@ -12,10 +12,11 @@
         <div class="box">
             <div class="box-header">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-block btn-primary"><i class="fa fa-sitemap"></i> Adicionar Categoria</button>
+                    <a href="{{ route('categories.create') }}" class="btn btn-block btn-primary"><i class="fa fa-sitemap"></i> Adicionar Categoria</a>
                 </div>
             </div>
             <div class="box-body">
+                @include('admin.includes.alerts')
                 <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
                     <div class="row">
                         <div class="col-sm-12">
@@ -31,9 +32,13 @@
                                     <tr role="row" class="odd">
                                         <td class="sorting_1">{{ $category->category }}</td>
                                         <td>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-success"><i class="fa fa-pencil"></i></button>
-                                                <button type="button" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
+                                            <div class="btn-group-opt">
+                                                <a href="{{ route('categories.edit', ['id' => $category->id]) }}" class="btn btn-success"><i class="fa fa-pencil"></i></a>
+                                                <form action="{{ route('categories.destroy', ['id' => $category->id]) }}" method="POST" onsubmit="return confirm('Você tem certeza disso?')">
+                                                    {{method_field('DELETE')}}
+                                                    {!! csrf_field() !!}
+                                                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>

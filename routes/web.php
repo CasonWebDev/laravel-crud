@@ -13,11 +13,12 @@
 
 Route::group(['middleware' => ['auth'], 'namespace' => 'Admin', 'prefix' => 'admin'], function(){
     Route::get('/', 'AdminController@index')->name('admin.home');
-    Route::get('customers', 'CustomersController@index')->name('admin.customers');
-    Route::get('products', 'ProductsController@index')->name('admin.products');
-    Route::get('categories', 'ProductsCategoriesController@index')->name('admin.productscategories');
+    Route::resource('customers', 'CustomersController');
+    Route::resource('products', 'ProductsController');
+    Route::resource('categories', 'ProductsCategoriesController');
+    Route::resource('sells', 'SellsController');
 });
 
-//Route::get('/', 'Site\SiteController@index')->name('home');
+Route::redirect('/', '/admin');
 
 Auth::routes();
