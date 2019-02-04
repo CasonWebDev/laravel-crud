@@ -19,6 +19,10 @@ class CustomersController extends Controller
         return view('admin.customers.index',compact('customers'));
     }
 
+    public function apiGet(Customers $customers){
+        return response()->json(Customers::all());
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -19,6 +19,9 @@ Route::group(['middleware' => ['auth'], 'namespace' => 'Admin', 'prefix' => 'adm
     Route::resource('sells', 'SellsController');
 });
 
+
+
+
 Route::redirect('/', '/admin');
 
 Auth::routes();

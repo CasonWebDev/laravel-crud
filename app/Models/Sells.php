@@ -68,27 +68,27 @@ class Sells extends Model
 
     public function updateProdSell($prods, $sell){
         try { 
-            dd($prods);
-            foreach($prods as $prod){
+            foreach($prods as $key => $value){
                 
-                // $prodCad = ProductsSells::where('products_id',$key)->where('sells_id',$sell)->first();
-                // if($value){
-                //     if($prodCad){
-                //         ProductsSells::where('products_id',$key)->where('sells_id',$sell)->update(['sells_id'=>$sell, 'products_id'=>$key, 'quantity'=>$value]);
+                $prodCad = ProductsSells::where('products_id',$key)->where('sells_id',$sell)->first();
+                if($value > 0){
+                    if($prodCad){
+                        ProductsSells::where('products_id',$key)->where('sells_id',$sell)->update(['sells_id'=>$sell, 'products_id'=>$key, 'quantity'=>$value]);
                         
-                //         if ($prodCad->quantity > intval($value)){
-                //             Products::where('id',$key)->increment('stock',$prodCad->quantity-$value);
-                //         }else{
-                //             Products::where('id',$key)->decrement('stock',$value-$prodCad->quantity);
-                //         }
-                //     }else{
-                //         ProductsSells::insert(['sells_id'=>$sell, 'products_id'=>$key, 'quantity'=>$value]); 
-                //         Products::where('id',$key)->decrement('stock',$value);
-                //     }                    
-                // }else{                    
-                //     Products::where('id',$prodCad->products_id)->increment('stock',$prodCad->quantity);
-                //     ProductsSells::where('products_id',$prodCad->products_id)->where('sells_id',$sell)->delete();
-                // }
+                        if ($prodCad->quantity > intval($value)){
+                            Products::where('id',$key)->increment('stock',$prodCad->quantity-$value);
+                        }else{
+                            Products::where('id',$key)->decrement('stock',$value-$prodCad->quantity);
+                        }
+                    }else{
+                        ProductsSells::insert(['sells_id'=>$sell, 'products_id'=>$key, 'quantity'=>$value]); 
+                        Products::where('id',$key)->decrement('stock',$value);
+                    }                    
+                }elseif($prodCad){                    
+                    Products::where('id',$prodCad->products_id)->increment('stock',$prodCad->quantity);
+                    ProductsSells::where('products_id',$prodCad->products_id)->where('sells_id',$sell)->delete();
+                }
+                
             }
             return [
                 'success' => true,

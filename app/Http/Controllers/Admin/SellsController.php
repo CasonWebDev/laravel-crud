@@ -124,7 +124,7 @@ class SellsController extends Controller
         $idsell = $sells->updateSell($id,$prevsell);
 
         if($idsell['success']){
-            $response = $sells->updateProdSell((array)$sell['products'], $id);
+            $response = $sells->updateProdSell($sell['quantity'], $id);
             if($response['success']){
                 return redirect()->route('sells.index')->with('success',$response['msg']);
             }else{
